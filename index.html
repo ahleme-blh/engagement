@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1 Month of Us</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #fff3d6, #ffe9c7, #f3d9a4, #2b1a06);
+    }
+    .font-love { font-family: 'Pacifico', cursive; }
+
+    .heart {
+      position: fixed;
+      bottom: -40px;
+      color: rgba(230, 178, 60, 0.9);
+      animation: floatHeart linear infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+    @keyframes floatHeart {
+      0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0; }
+      15% { opacity: 1; }
+      100% { transform: translateY(-115vh) rotate(360deg) scale(1.8); opacity: 0; }
+    }
+
+    .sparkle {
+      position: fixed;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #fff8e7;
+      box-shadow: 0 0 15px #ffd97a;
+      animation: sparkle 2s infinite ease-in-out;
+      z-index: 2;
+      pointer-events: none;
+    }
+    @keyframes sparkle {
+      0%, 100% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+
+    .step {
+      display: none;
+      animation: popIn .8s ease forwards;
+    }
+    .step.active { display: block; }
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(35px) scale(.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .glass {
+      background: rgba(255, 250, 235, 0.35);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 223, 150, 0.5);
+      box-shadow: 0 25px 70px rgba(120, 84, 15, 0.25), inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+
+    .warm-text { color: #5c3a10; }
+
+    .progress-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 2.5rem;
+    }
+    .progress-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(120, 84, 15, 0.25);
+      transition: all .4s ease;
+    }
+    .progress-dots span.active {
+      width: 26px;
+      border-radius: 6px;
+      background: #c99a3e;
+    }
+
+    .gold-btn {
+      background: linear-gradient(135deg, #d9ac52, #b9822a);
+      color: #fffaf0;
+      box-shadow: 0 12px 28px rgba(185, 130, 42, .45);
+    }
+    .gold-btn:hover { filter: brightness(1.08); }
+
+    .balloon {
+      position: absolute;
+      width: 52px;
+      height: 68px;
+      border-radius: 50% 50% 45% 45%;
+      animation: balloonFloat 4s ease-in-out infinite;
+      opacity: 0.55;
+      z-index: 0;
+    }
+    .balloon::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 90px;
+      background: rgba(255,244,214,.6);
+      left: 50%;
+      top: 76px;
+    }
+    @keyframes balloonFloat {
+      0%,100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-28px) rotate(4deg); }
+    }
+
+    .typing {
+      border-right: 3px solid #c99a3e;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: typing 3.5s steps(40), blink .7s infinite;
+    }
+    @keyframes typing { from { width: 0; } to { width: 100%; } }
+    @keyframes blink { 50% { border-color: transparent; } }
+
+    .cake {
+      position: relative;
+      width: 210px;
+      height: 135px;
+      margin: 0 auto;
+    }
+    .cake-base {
+      position: absolute;
+      bottom: 0;
+      width: 210px;
+      height: 85px;
+      background: linear-gradient(180deg, #e6c27a, #c99a3e);
+      border-radius: 18px 18px 28px 28px;
+      box-shadow: 0 18px 35px rgba(201, 154, 62, .38);
+    }
+    .cake-top {
+      position: absolute;
+      bottom: 70px;
+      width: 210px;
+      height: 40px;
+      background: #fffaf0;
+      border-radius: 50%;
+    }
+    .candle {
+      position: absolute;
+      bottom: 105px;
+      left: 96px;
+      width: 18px;
+      height: 45px;
+      background: repeating-linear-gradient(45deg, #fff, #fff 6px, #d4a53a 6px, #d4a53a 12px);
+      border-radius: 8px;
+    }
+    .flame {
+      position: absolute;
+      bottom: 146px;
+      left: 95px;
+      width: 20px;
+      height: 30px;
+      background: radial-gradient(circle, #fff7a1 20%, #ffb300 60%, #ff4d00 100%);
+      border-radius: 50% 50% 50% 50%;
+      animation: flame .25s infinite alternate;
+      transform-origin: bottom;
+    }
+    @keyframes flame {
+      from { transform: scale(1) rotate(-3deg); }
+      to { transform: scale(1.15) rotate(3deg); }
+    }
+
+    .confetti {
+      position: fixed;
+      top: -20px;
+      width: 10px;
+      height: 16px;
+      animation: confettiFall 3s linear forwards;
+      z-index: 40;
+    }
+    @keyframes confettiFall {
+      to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    .shake { animation: shake .45s ease; }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center px-4 warm-text relative">
+  <div class="balloon bg-amber-300 left-8 top-20"></div>
+  <div class="balloon bg-yellow-200 right-10 top-28" style="animation-delay:1s"></div>
+  <div class="balloon bg-orange-200 left-1/4 bottom-16" style="animation-delay:2s"></div>
+  <div class="balloon bg-amber-400 right-1/4 bottom-20" style="animation-delay:.5s"></div>
+
+  <main class="relative z-10 w-full max-w-3xl">
+    <div class="glass rounded-[2rem] p-6 sm:p-10 text-center min-h-[560px] flex items-center justify-center">
+      <section class="step active w-full" data-step="0">
+        <p class="uppercase tracking-[.35em] text-sm warm-text opacity-80 mb-4">One month ago, everything changed</p>
+        <h1 class="font-love text-5xl sm:text-7xl warm-text drop-shadow-lg mb-6">1 Month Engaged 💍</h1>
+        <p class="text-lg sm:text-xl warm-text opacity-90 max-w-xl mx-auto mb-8">Today is not just another day. It is one month since we got engaged and became forever.</p>
+        <button onclick="nextStep()" class="gold-btn px-8 py-4 rounded-full font-bold hover:scale-105 active:scale-95 transition">Open Your Surprise 💛</button>
+      </section>
+
+      <section class="step w-full" data-step="1">
+        <h2 class="font-love text-4xl sm:text-6xl mb-5">First, catch the heart</h2>
+        <p class="mb-6 warm-text opacity-90">Click the floating heart 5 times to unlock our little celebration.</p>
+        <div class="relative h-72 rounded-3xl bg-white/20 overflow-hidden border border-white/30" id="heartGame">
+          <button id="catchHeart" class="absolute text-5xl hover:scale-125 transition">💛</button>
+          <div class="absolute left-4 top-4 bg-white/40 px-4 py-2 rounded-full text-sm font-semibold">Caught: <span id="score">0</span>/5</div>
+        </div>
+      </section>
+
+      <section class="step w-full" data-step="2">
+        <h2 class="font-love text-4xl sm:text-6xl mb-6">Day 30</h2>
+        <div class="cake mb-8">
+          <div class="flame" id="flame"></div>
+          <div class="candle"></div>
+          <div class="cake-top"></div>
+          <div class="cake-base"></div>
+        </div>
+       
+        <button onclick="blowCandle()" class="gold-btn px-8 py-4 rounded-full font-bold hover:scale-105 active:scale-95 transition">Make a Wish 🕯️</button>
+      </section>
+
+      <section class="step w-full" data-step="3">
+        <p class="uppercase tracking-[.35em] text-sm warm-text opacity-80 mb-4">29/07/2026</p>
+        <h2 class="font-love text-5xl sm:text-7xl mb-6">Un Mois de Nous 💛💍</h2>
+        <div class="max-w-2xl mx-auto text-left bg-white/25 rounded-3xl p-7 sm:p-8 border border-white/30 shadow-inner">
+          <p class="text-lg leading-8 warm-text opacity-95 font-semibold">
+            29/07/2026 💛💍
+          </p>
+          <p class="text-lg leading-8 warm-text opacity-95 mt-4">
+            Une date gravée à jamais dans mon cœur, une date qui restera l'une des plus belles de ma vie. Le jour où j'ai réalisé que j'avais à mes côtés une personne si précieuse, si exceptionnelle… la personne avec qui je veux tout partager.
+          </p>
+          <p class="text-lg leading-8 warm-text opacity-95 mt-4">
+            Avec toi, je n'ai pas peur de laisser certaines choses derrière moi, parce que je sais que l'avenir que je veux est à tes côtés. Tu es la personne avec qui je veux écrire chaque page de ma vie, partager mes joies, mes rêves, mes épreuves et tous les petits moments qui feront notre histoire.
+          </p>
+          <p class="text-lg leading-8 warm-text opacity-95 mt-4">
+            29/07/2026… le jour où notre « nous » a commencé une nouvelle histoire. 💍✨
+          </p>
+          <p class="text-lg leading-8 warm-text opacity-95 mt-4 font-semibold">
+            Je te choisis aujourd'hui, demain et pour tous les jours à venir. 💛
+          </p>
+        </div>
+        <button onclick="restartWish()" class="mt-8 gold-btn px-8 py-4 rounded-full font-bold hover:scale-105 active:scale-95 transition">Replay Magic ✨</button>
+      </section>
+    </div>
+
+    <div class="progress-dots" id="progressDots">
+      <span class="active"></span><span></span><span></span><span></span>
+    </div>
+  </main>
+
+  <script>
+    let currentStep = 0;
+    let score = 0;
+    const steps = document.querySelectorAll('.step');
+    const catchHeart = document.getElementById('catchHeart');
+    const heartGame = document.getElementById('heartGame');
+    const scoreEl = document.getElementById('score');
+
+    function showStep(index) {
+      steps.forEach(step => step.classList.remove('active'));
+      steps[index].classList.add('active');
+      currentStep = index;
+      document.querySelectorAll('#progressDots span').forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+      if (index === 1) moveHeart();
+      if (index === 3) launchConfetti();
+    }
+
+    function nextStep() {
+      showStep(currentStep + 1);
+    }
+
+    function createFloatingHearts() {
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = ['💛','✨','💫','🌟','💎'][Math.floor(Math.random() * 5)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.fontSize = (18 + Math.random() * 28) + 'px';
+        heart.style.animationDuration = (4 + Math.random() * 4) + 's';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 8000);
+      }, 350);
+    }
+
+    function createSparkles() {
+      for (let i = 0; i < 35; i++) {
+        const sp = document.createElement('div');
+        sp.className = 'sparkle';
+        sp.style.left = Math.random() * 100 + 'vw';
+        sp.style.top = Math.random() * 100 + 'vh';
+        sp.style.animationDelay = Math.random() * 3 + 's';
+        document.body.appendChild(sp);
+      }
+    }
+
+    function moveHeart() {
+      const maxX = heartGame.clientWidth - 70;
+      const maxY = heartGame.clientHeight - 70;
+      catchHeart.style.left = Math.random() * maxX + 'px';
+      catchHeart.style.top = Math.random() * maxY + 'px';
+    }
+
+    catchHeart.addEventListener('click', () => {
+      score++;
+      scoreEl.textContent = score;
+      catchHeart.classList.add('shake');
+      setTimeout(() => catchHeart.classList.remove('shake'), 450);
+      if (score >= 5) {
+        setTimeout(() => showStep(2), 500);
+      } else {
+        moveHeart();
+      }
+    });
+
+    function blowCandle() {
+      document.getElementById('flame').style.display = 'none';
+      launchConfetti(120);
+      setTimeout(() => showStep(3), 1200);
+    }
+
+    function launchConfetti(amount = 100) {
+      const colors = ['#e6c27a', '#fff176', '#c99a3e', '#fff8e7', '#ffd97a', '#b9822a'];
+      for (let i = 0; i < amount; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animationDelay = Math.random() * 1.2 + 's';
+        c.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 4500);
+      }
+    }
+
+    function restartWish() {
+      score = 0;
+      scoreEl.textContent = '0';
+      document.getElementById('flame').style.display = 'block';
+      showStep(0);
+    }
+
+    createFloatingHearts();
+    createSparkles();
+  </script>
+</body>
+</html>
