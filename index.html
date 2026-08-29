@@ -1,253 +1,309 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>1 Month of Us</title>
+  <title>1 Mois de Nous</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600;1,700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --cream: #FBF7EF;
+      --blush: #F0DEC4;
+      --gold: #B8935A;
+      --gold-deep: #8C6A3B;
+      --rose: #C08768;
+      --ink: #3E2A18;
+    }
     * { box-sizing: border-box; }
     body {
       font-family: 'Poppins', sans-serif;
+      font-weight: 300;
       overflow: hidden;
-      background: radial-gradient(circle at top, #fff3d6, #ffe9c7, #f3d9a4, #2b1a06);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 50% -10%, #ffffff 0%, var(--cream) 45%, var(--blush) 100%);
     }
-    .font-love { font-family: 'Pacifico', cursive; }
+    .font-display {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 600;
+    }
 
-    .heart {
+    /* ambient motifs — quiet, not colorful confetti */
+    .motif {
       position: fixed;
-      bottom: -40px;
-      color: rgba(230, 178, 60, 0.9);
-      animation: floatHeart linear infinite;
+      bottom: -30px;
+      color: var(--gold);
+      opacity: 0;
+      animation: floatMotif linear infinite;
+      z-index: 1;
+      pointer-events: none;
+      font-family: 'Cormorant Garamond', serif;
+    }
+    @keyframes floatMotif {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      12% { opacity: .55; }
+      88% { opacity: .4; }
+      100% { transform: translateY(-108vh) rotate(18deg); opacity: 0; }
+    }
+
+    .grain {
+      position: fixed;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: grainPulse 3.2s ease-in-out infinite;
       z-index: 1;
       pointer-events: none;
     }
-    @keyframes floatHeart {
-      0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0; }
-      15% { opacity: 1; }
-      100% { transform: translateY(-115vh) rotate(360deg) scale(1.8); opacity: 0; }
+    @keyframes grainPulse {
+      0%, 100% { opacity: .12; transform: scale(1); }
+      50% { opacity: .55; transform: scale(1.6); }
     }
 
-    .sparkle {
-      position: fixed;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #fff8e7;
-      box-shadow: 0 0 15px #ffd97a;
-      animation: sparkle 2s infinite ease-in-out;
-      z-index: 2;
-      pointer-events: none;
-    }
-    @keyframes sparkle {
-      0%, 100% { transform: scale(0); opacity: 0; }
-      50% { transform: scale(1.3); opacity: 1; }
-    }
-
-    .step {
-      display: none;
-      animation: popIn .8s ease forwards;
-    }
+    .step { display: none; animation: riseIn .7s cubic-bezier(.2,.7,.2,1) forwards; }
     .step.active { display: block; }
-    @keyframes popIn {
-      from { opacity: 0; transform: translateY(35px) scale(.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .glass {
-      background: rgba(255, 250, 235, 0.35);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 223, 150, 0.5);
-      box-shadow: 0 25px 70px rgba(120, 84, 15, 0.25), inset 0 1px 0 rgba(255,255,255,0.4);
+    .card {
+      background: rgba(255, 253, 248, 0.72);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(184, 147, 90, 0.28);
+      box-shadow: 0 30px 80px -20px rgba(140, 106, 59, 0.35), inset 0 1px 0 rgba(255,255,255,.6);
     }
 
-    .warm-text { color: #5c3a10; }
-
-    .progress-dots {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 2.5rem;
-    }
-    .progress-dots span {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(120, 84, 15, 0.25);
-      transition: all .4s ease;
-    }
-    .progress-dots span.active {
-      width: 26px;
-      border-radius: 6px;
-      background: #c99a3e;
-    }
-
-    .gold-btn {
-      background: linear-gradient(135deg, #d9ac52, #b9822a);
-      color: #fffaf0;
-      box-shadow: 0 12px 28px rgba(185, 130, 42, .45);
-    }
-    .gold-btn:hover { filter: brightness(1.08); }
-
-    .balloon {
-      position: absolute;
-      width: 52px;
-      height: 68px;
-      border-radius: 50% 50% 45% 45%;
-      animation: balloonFloat 4s ease-in-out infinite;
-      opacity: 0.55;
-      z-index: 0;
-    }
-    .balloon::after {
-      content: '';
-      position: absolute;
-      width: 2px;
-      height: 90px;
-      background: rgba(255,244,214,.6);
-      left: 50%;
-      top: 76px;
-    }
-    @keyframes balloonFloat {
-      0%,100% { transform: translateY(0) rotate(-3deg); }
-      50% { transform: translateY(-28px) rotate(4deg); }
-    }
-
-    .typing {
-      border-right: 3px solid #c99a3e;
-      white-space: nowrap;
-      overflow: hidden;
-      animation: typing 3.5s steps(40), blink .7s infinite;
-    }
-    @keyframes typing { from { width: 0; } to { width: 100%; } }
-    @keyframes blink { 50% { border-color: transparent; } }
-
-    .cake {
+    .divider {
+      width: 46px;
+      height: 1px;
+      margin: 1.25rem auto;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
       position: relative;
-      width: 210px;
-      height: 135px;
-      margin: 0 auto;
     }
+    .divider::after {
+      content: '◆';
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 7px;
+      color: var(--gold);
+      background: transparent;
+    }
+
+    .eyebrow {
+      letter-spacing: .28em;
+      font-size: .7rem;
+      text-transform: uppercase;
+      color: var(--gold-deep);
+      opacity: .85;
+    }
+
+    .progress-dots { display: flex; justify-content: center; gap: 10px; margin-top: 2.25rem; }
+    .progress-dots span {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(140, 106, 59, .22);
+      transition: all .5s cubic-bezier(.2,.7,.2,1);
+    }
+    .progress-dots span.active { width: 22px; border-radius: 4px; background: var(--gold); }
+
+    .btn {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: .85rem;
+      letter-spacing: .06em;
+      color: var(--cream);
+      background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+      box-shadow: 0 10px 24px -6px rgba(140, 106, 59, .55);
+      transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, filter .35s ease;
+    }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.06); box-shadow: 0 14px 30px -6px rgba(140, 106, 59, .65); }
+    .btn:active { transform: translateY(0) scale(.98); }
+
+    /* heart-catch game */
+    .heart-field {
+      background: linear-gradient(160deg, rgba(240,222,196,.4), rgba(255,255,255,.15));
+      border: 1px solid rgba(184,147,90,.25);
+    }
+    #catchHeart { filter: drop-shadow(0 8px 16px rgba(140,106,59,.35)); transition: transform .25s ease; }
+    .caught-pill {
+      background: rgba(255,255,255,.55);
+      border: 1px solid rgba(184,147,90,.3);
+      color: var(--ink);
+    }
+
+    /* minimal cake */
+    .cake { position: relative; width: 190px; height: 128px; margin: 0 auto; }
     .cake-base {
-      position: absolute;
-      bottom: 0;
-      width: 210px;
-      height: 85px;
-      background: linear-gradient(180deg, #e6c27a, #c99a3e);
-      border-radius: 18px 18px 28px 28px;
-      box-shadow: 0 18px 35px rgba(201, 154, 62, .38);
+      position: absolute; bottom: 0; width: 190px; height: 66px;
+      background: linear-gradient(180deg, #fffdf8, var(--blush));
+      border-radius: 14px;
+      box-shadow: 0 16px 30px -10px rgba(140,106,59,.35);
     }
-    .cake-top {
-      position: absolute;
-      bottom: 70px;
-      width: 210px;
-      height: 40px;
-      background: #fffaf0;
-      border-radius: 50%;
+    .cake-base::before {
+      content: '';
+      position: absolute; left: 0; right: 0; top: 0; height: 5px;
+      background: var(--gold);
+      opacity: .55;
+      border-radius: 14px 14px 0 0;
+    }
+    .cake-tier {
+      position: absolute; bottom: 58px; left: 32px; width: 126px; height: 34px;
+      background: linear-gradient(180deg, #fffefb, #fff2df);
+      border-radius: 10px;
+      box-shadow: 0 10px 18px -8px rgba(140,106,59,.28);
+    }
+    .cake-tier::before {
+      content: '';
+      position: absolute; left: 0; right: 0; top: 0; height: 4px;
+      background: var(--gold);
+      opacity: .5;
+      border-radius: 10px 10px 0 0;
     }
     .candle {
-      position: absolute;
-      bottom: 105px;
-      left: 96px;
-      width: 18px;
-      height: 45px;
-      background: repeating-linear-gradient(45deg, #fff, #fff 6px, #d4a53a 6px, #d4a53a 12px);
-      border-radius: 8px;
+      position: absolute; bottom: 88px; left: 88px; width: 10px; height: 34px;
+      background: var(--gold);
+      border-radius: 3px;
+      opacity: .9;
     }
     .flame {
-      position: absolute;
-      bottom: 146px;
-      left: 95px;
-      width: 20px;
-      height: 30px;
-      background: radial-gradient(circle, #fff7a1 20%, #ffb300 60%, #ff4d00 100%);
-      border-radius: 50% 50% 50% 50%;
-      animation: flame .25s infinite alternate;
+      position: absolute; bottom: 118px; left: 87px; width: 12px; height: 18px;
+      background: radial-gradient(circle, #fff2c4 15%, var(--gold) 55%, var(--rose) 100%);
+      border-radius: 50%;
+      animation: flicker .3s infinite alternate;
       transform-origin: bottom;
     }
-    @keyframes flame {
-      from { transform: scale(1) rotate(-3deg); }
-      to { transform: scale(1.15) rotate(3deg); }
+    @keyframes flicker { from { transform: scale(1) rotate(-2deg); } to { transform: scale(1.12) rotate(2deg); } }
+
+    /* letter (final step) */
+    .letter {
+      background: rgba(255,255,255,.5);
+      border: 1px solid rgba(184,147,90,.28);
+      position: relative;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+    .letter::before {
+      content: '“';
+      position: absolute;
+      top: -6px; left: 18px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      color: var(--gold);
+      opacity: .35;
+      line-height: 1;
+    }
+    /* thin gold scrollbar, in keeping with the palette */
+    .letter::-webkit-scrollbar { width: 5px; }
+    .letter::-webkit-scrollbar-track { background: transparent; }
+    .letter::-webkit-scrollbar-thumb { background: rgba(184,147,90,.45); border-radius: 3px; }
+    .letter { scrollbar-width: thin; scrollbar-color: rgba(184,147,90,.45) transparent; }
+
+    /* fade hint at the bottom of the letter, so it's clear there's more to read */
+    .letter-wrap { position: relative; }
+    .letter-wrap::after {
+      content: '';
+      position: absolute;
+      left: 1px; right: 1px; bottom: 1px;
+      height: 34px;
+      background: linear-gradient(180deg, rgba(255,255,255,0), rgba(250,246,238,.85));
+      border-radius: 0 0 1rem 1rem;
+      pointer-events: none;
+    }
+    .seal {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--rose));
+      display: flex; align-items: center; justify-content: center;
+      color: var(--cream);
+      font-size: .95rem;
+      box-shadow: 0 8px 18px -6px rgba(140,106,59,.5);
+      margin: 0 auto 1rem;
     }
 
+    /* confetti — muted palette only, on the final reveal */
     .confetti {
-      position: fixed;
-      top: -20px;
-      width: 10px;
-      height: 16px;
+      position: fixed; top: -20px; width: 7px; height: 12px;
+      border-radius: 2px;
       animation: confettiFall 3s linear forwards;
       z-index: 40;
     }
-    @keyframes confettiFall {
-      to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-    }
+    @keyframes confettiFall { to { transform: translateY(108vh) rotate(480deg); opacity: 0; } }
 
-    .shake { animation: shake .45s ease; }
+    .shake { animation: shake .4s ease; }
     @keyframes shake {
       0%,100% { transform: translateX(0); }
-      25% { transform: translateX(-8px); }
-      75% { transform: translateX(8px); }
+      25% { transform: translateX(-7px); }
+      75% { transform: translateX(7px); }
     }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center px-4 warm-text relative">
-  <div class="balloon bg-amber-300 left-8 top-20"></div>
-  <div class="balloon bg-yellow-200 right-10 top-28" style="animation-delay:1s"></div>
-  <div class="balloon bg-orange-200 left-1/4 bottom-16" style="animation-delay:2s"></div>
-  <div class="balloon bg-amber-400 right-1/4 bottom-20" style="animation-delay:.5s"></div>
+<body class="min-h-screen flex items-center justify-center px-4 relative">
 
-  <main class="relative z-10 w-full max-w-3xl">
-    <div class="glass rounded-[2rem] p-6 sm:p-10 text-center min-h-[560px] flex items-center justify-center">
+  <main class="relative z-10 w-full max-w-xl">
+    <div class="card rounded-[1.75rem] p-12 text-center min-h-[520px] flex items-center justify-center">
+
       <section class="step active w-full" data-step="0">
-        <p class="uppercase tracking-[.35em] text-sm warm-text opacity-80 mb-4">One month ago, everything changed</p>
-        <h1 class="font-love text-5xl sm:text-7xl warm-text drop-shadow-lg mb-6">1 Month Engaged 💍</h1>
-        <p class="text-lg sm:text-xl warm-text opacity-90 max-w-xl mx-auto mb-8">Today is not just another day. It is one month since we got engaged and became forever.</p>
-        <button onclick="nextStep()" class="gold-btn px-8 py-4 rounded-full font-bold hover:scale-105 active:scale-95 transition">Open Your Surprise 💛</button>
+        <p class="eyebrow mb-3">Il y a un mois, tout a changé</p>
+        <h1 class="font-display text-6xl mb-1 leading-tight">1 Mois de Fiançailles</h1>
+        <div class="divider"></div>
+        <p class="text-base leading-7 opacity-80 max-w-sm mx-auto mb-8 font-light">
+          Aujourd'hui n'est pas un jour comme les autres. Cela fait un mois que nous nous sommes fiancés — et que nous sommes devenus pour toujours.
+        </p>
+        <button onclick="nextStep()" class="btn px-7 py-3.5 rounded-full uppercase">Découvrir la surprise</button>
       </section>
 
       <section class="step w-full" data-step="1">
-        <h2 class="font-love text-4xl sm:text-6xl mb-5">First, catch the heart</h2>
-        <p class="mb-6 warm-text opacity-90">Click the floating heart 5 times to unlock our little celebration.</p>
-        <div class="relative h-72 rounded-3xl bg-white/20 overflow-hidden border border-white/30" id="heartGame">
-          <button id="catchHeart" class="absolute text-5xl hover:scale-125 transition">💛</button>
-          <div class="absolute left-4 top-4 bg-white/40 px-4 py-2 rounded-full text-sm font-semibold">Caught: <span id="score">0</span>/5</div>
+        <p class="eyebrow mb-3">Un petit jeu, d'abord</p>
+        <h2 class="font-display text-5xl mb-2">Attrape le cœur</h2>
+        <p class="text-sm opacity-75 mb-6 font-light">Touche-le 5 fois pour continuer.</p>
+        <div class="relative h-64 rounded-2xl heart-field overflow-hidden" id="heartGame">
+          <button id="catchHeart" class="absolute text-4xl hover:scale-110 active:scale-95">🤎</button>
+          <div class="absolute left-4 top-4 caught-pill px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide">
+            <span id="score">0</span> / 5
+          </div>
         </div>
       </section>
 
       <section class="step w-full" data-step="2">
-        <h2 class="font-love text-4xl sm:text-6xl mb-6">Day 30</h2>
+        <p class="eyebrow mb-3">Jour</p>
+        <h2 class="font-display text-6xl mb-7">Trente</h2>
         <div class="cake mb-8">
           <div class="flame" id="flame"></div>
           <div class="candle"></div>
-          <div class="cake-top"></div>
+          <div class="cake-tier"></div>
           <div class="cake-base"></div>
         </div>
-       
-        <button onclick="blowCandle()" class="gold-btn px-8 py-4 rounded-full font-bold hover:scale-105 active:scale-95 transition">Make a Wish 🕯️</button>
+        <button onclick="blowCandle()" class="btn px-7 py-3.5 rounded-full uppercase">Fais un vœu</button>
       </section>
 
       <section class="step w-full" data-step="3">
-        <p class="uppercase tracking-[.35em] text-sm warm-text opacity-80 mb-4">29/07/2026</p>
-        <h2 class="font-love text-5xl sm:text-7xl mb-6">Un Mois de Nous 💛💍</h2>
-        <div class="max-w-2xl mx-auto text-left bg-white/25 rounded-3xl p-7 sm:p-8 border border-white/30 shadow-inner">
-          <p class="text-lg leading-8 warm-text opacity-95 font-semibold">
-            29/07/2026 💛💍
-          </p>
-          <p class="text-lg leading-8 warm-text opacity-95 mt-4">
-            Une date gravée à jamais dans mon cœur, une date qui restera l'une des plus belles de ma vie. Le jour où j'ai réalisé que j'avais à mes côtés une personne si précieuse, si exceptionnelle… la personne avec qui je veux tout partager.
-          </p>
-          <p class="text-lg leading-8 warm-text opacity-95 mt-4">
-            Avec toi, je n'ai pas peur de laisser certaines choses derrière moi, parce que je sais que l'avenir que je veux est à tes côtés. Tu es la personne avec qui je veux écrire chaque page de ma vie, partager mes joies, mes rêves, mes épreuves et tous les petits moments qui feront notre histoire.
-          </p>
-          <p class="text-lg leading-8 warm-text opacity-95 mt-4">
-            29/07/2026… le jour où notre « nous » a commencé une nouvelle histoire. 💍✨
-          </p>
-          <p class="text-lg leading-8 warm-text opacity-95 mt-4 font-semibold">
-            Je te choisis aujourd'hui, demain et pour tous les jours à venir. 💛
-          </p>
+        <p class="eyebrow mb-2">29 · 07 · 2026</p>
+        <h2 class="font-display text-6xl mb-5">Un Mois de Nous</h2>
+        <div class="max-w-md mx-auto letter-wrap">
+          <div class="text-left letter rounded-2xl p-8">
+            <div class="seal">♥</div>
+            <p class="text-[0.95rem] leading-7 opacity-90 font-light">
+              Une date gravée à jamais dans mon cœur, une date qui restera l'une des plus belles de ma vie. Le jour où j'ai réalisé que j'avais à mes côtés une personne si précieuse, si exceptionnelle… la personne avec qui je veux tout partager.
+            </p>
+            <p class="text-[0.95rem] leading-7 opacity-90 font-light mt-3">
+              Avec toi, je n'ai pas peur de laisser certaines choses derrière moi, parce que je sais que l'avenir que je veux est à tes côtés. Tu es la personne avec qui je veux écrire chaque page de ma vie, partager mes joies, mes rêves, mes épreuves et tous les petits moments qui feront notre histoire.
+            </p>
+            <p class="text-[0.95rem] leading-7 opacity-90 font-light mt-3">
+              29/07/2026… le jour où notre « nous » a commencé une nouvelle histoire.
+            </p>
+            <p class="text-[0.95rem] leading-7 font-medium mt-3 pb-1">
+              Je te choisis aujourd'hui, demain et pour tous les jours à venir. 🤎
+            </p>
+          </div>
         </div>
-        <button onclick="restartWish()" class="mt-8 gold-btn px-8 py-4 rounded-full font-bold hover:scale-105 active:scale-95 transition">Replay Magic ✨</button>
+        <button onclick="restartWish()" class="mt-7 btn px-7 py-3.5 rounded-full uppercase">Revivre la magie</button>
       </section>
+
     </div>
 
     <div class="progress-dots" id="progressDots">
@@ -274,37 +330,36 @@
       if (index === 3) launchConfetti();
     }
 
-    function nextStep() {
-      showStep(currentStep + 1);
-    }
+    function nextStep() { showStep(currentStep + 1); }
 
-    function createFloatingHearts() {
+    function createMotifs() {
+      const symbols = ['♡', '✦', '·'];
       setInterval(() => {
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.innerHTML = ['💛','✨','💫','🌟','💎'][Math.floor(Math.random() * 5)];
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.fontSize = (18 + Math.random() * 28) + 'px';
-        heart.style.animationDuration = (4 + Math.random() * 4) + 's';
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 8000);
-      }, 350);
+        const m = document.createElement('div');
+        m.className = 'motif';
+        m.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        m.style.left = Math.random() * 100 + 'vw';
+        m.style.fontSize = (14 + Math.random() * 20) + 'px';
+        m.style.animationDuration = (6 + Math.random() * 5) + 's';
+        document.body.appendChild(m);
+        setTimeout(() => m.remove(), 12000);
+      }, 650);
     }
 
-    function createSparkles() {
-      for (let i = 0; i < 35; i++) {
-        const sp = document.createElement('div');
-        sp.className = 'sparkle';
-        sp.style.left = Math.random() * 100 + 'vw';
-        sp.style.top = Math.random() * 100 + 'vh';
-        sp.style.animationDelay = Math.random() * 3 + 's';
-        document.body.appendChild(sp);
+    function createGrain() {
+      for (let i = 0; i < 16; i++) {
+        const g = document.createElement('div');
+        g.className = 'grain';
+        g.style.left = Math.random() * 100 + 'vw';
+        g.style.top = Math.random() * 100 + 'vh';
+        g.style.animationDelay = Math.random() * 3 + 's';
+        document.body.appendChild(g);
       }
     }
 
     function moveHeart() {
-      const maxX = heartGame.clientWidth - 70;
-      const maxY = heartGame.clientHeight - 70;
+      const maxX = heartGame.clientWidth - 60;
+      const maxY = heartGame.clientHeight - 60;
       catchHeart.style.left = Math.random() * maxX + 'px';
       catchHeart.style.top = Math.random() * maxY + 'px';
     }
@@ -313,9 +368,9 @@
       score++;
       scoreEl.textContent = score;
       catchHeart.classList.add('shake');
-      setTimeout(() => catchHeart.classList.remove('shake'), 450);
+      setTimeout(() => catchHeart.classList.remove('shake'), 400);
       if (score >= 5) {
-        setTimeout(() => showStep(2), 500);
+        setTimeout(() => showStep(2), 450);
       } else {
         moveHeart();
       }
@@ -323,19 +378,19 @@
 
     function blowCandle() {
       document.getElementById('flame').style.display = 'none';
-      launchConfetti(120);
-      setTimeout(() => showStep(3), 1200);
+      launchConfetti(80);
+      setTimeout(() => showStep(3), 1000);
     }
 
-    function launchConfetti(amount = 100) {
-      const colors = ['#e6c27a', '#fff176', '#c99a3e', '#fff8e7', '#ffd97a', '#b9822a'];
+    function launchConfetti(amount = 70) {
+      const colors = ['#B8935A', '#8C6A3B', '#F0DEC4', '#C08768', '#FBF7EF'];
       for (let i = 0; i < amount; i++) {
         const c = document.createElement('div');
         c.className = 'confetti';
         c.style.left = Math.random() * 100 + 'vw';
         c.style.background = colors[Math.floor(Math.random() * colors.length)];
-        c.style.animationDelay = Math.random() * 1.2 + 's';
-        c.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+        c.style.animationDelay = Math.random() * 1 + 's';
+        c.style.animationDuration = (2.2 + Math.random() * 2) + 's';
         document.body.appendChild(c);
         setTimeout(() => c.remove(), 4500);
       }
@@ -348,8 +403,8 @@
       showStep(0);
     }
 
-    createFloatingHearts();
-    createSparkles();
+    createMotifs();
+    createGrain();
   </script>
 </body>
 </html>
